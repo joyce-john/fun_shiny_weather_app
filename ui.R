@@ -1,0 +1,146 @@
+# libraries
+library(shiny)
+library(shinydashboard)
+library(shinyWidgets)
+
+# load helper functions, stored values from global.R
+source("helper/global.R")
+
+# dashboard style UI
+ui <- dashboardPage(
+  
+  skin = 'black',
+  
+  dashboardHeader(
+    title = "Weather Forecast"
+  ),
+  
+  dashboardSidebar(
+    sidebarMenu(
+      menuItem('Today', tabName = 'today'),
+      menuItem('Weekly Forecast', tabName = 'weekly_forecast'),
+      menuItem('App Survey', tabName = 'survey'),
+      menuItem('Attribution', tabName = 'attribution')
+      
+    )
+  ),
+  
+  dashboardBody(
+    
+    tabItems(
+      tabItem(tabName = 'today',
+              
+              fluidRow(
+                
+                
+                infoBoxOutput('curr_temp'),
+                infoBoxOutput('curr_feel'),
+                infoBoxOutput('curr_condition')
+
+                
+                
+              ),
+              
+              fluidRow(
+                
+                box(width = 6,    
+                    # select city from dropdown 
+                    selectInput("curr_city", label = h3("Select city"), 
+                                choices = list("Albuquerque" = "Albuquerque,US", "Baltimore" = "Baltimore,US", "Budapest" = "Budapest,HU", "Los Angeles" = "Los Angeles,US"), 
+                                selected = "Budapest,HU")),
+                
+                box(width = 6,
+                    # select measurement system from radio buttons
+                    radioButtons("curr_measurement", label = h3("Measurement system"),
+                                 choices = list("imperial" = "imperial", "metric" = "metric"), 
+                                 selected = "metric"))
+                
+              ),
+              
+              fluidRow(
+                
+                box(width = 10,
+                    
+                    # show image based on current condition
+                    imageOutput("curr_image")
+                )
+              )
+      ),
+      
+      tabItem(tabName = 'weekly_forecast',
+              
+              fluidRow(
+                
+                box(width = 6,    
+                    # select city from dropdown 
+                    selectInput("forecast_city", label = h3("Select city"), 
+                                choices = list("Albuquerque" = "Albuquerque,US", "Baltimore" = "Baltimore,US", "Budapest" = "Budapest,HU", "Los Angeles" = "Los Angeles,US"), 
+                                selected = "Budapest,HU")),
+                
+                box(width = 6,
+                    # select measurement system from radio buttons
+                    radioButtons("forecast_measurement", label = h3("Measurement system"),
+                                 choices = list("imperial" = "imperial", "metric" = "metric"), 
+                                 selected = "metric"))
+              ),
+              
+              box(width = 6,
+                  girafeOutput('plot_forecast')
+              ),
+              
+              box(width = 6,
+                  DT::dataTableOutput('forecast_table'))
+              
+      ),
+      
+      tabItem(tabName = 'survey',
+              
+              h1("We value your feedback. Please take a minute to fill out our survey."),
+              hr(),
+              hr(),
+              hr(),
+              h2("Are you satisfied with the selection of cities on this app?"),
+              switchInput(
+                inputId = "q1",
+                onLabel = "Yes",
+                offLabel = "No",
+                size = "large"),
+              h2("In your opinion, are these forecasts accurate and reliable?"),
+              switchInput(
+                inputId = "q2",
+                onLabel = "Yes",
+                offLabel = "No",
+                size = "large"),
+              h2('Would you recommend this app to a friend?'),
+              switchInput(
+                inputId = "q3",
+                onLabel = "Yes",
+                offLabel = "No",
+                size = "large"),
+              hr(),
+              hr(),
+              actionBttn(
+                inputId = "submit_survey",
+                label = "Submit survey", 
+                style = "material-flat",
+                color = "danger"
+              )
+              
+              
+              
+              
+      ),
+      
+      tabItem(tabName = 'attribution',
+              
+              h1("Thanks to these organizations..."),
+              h2(tags$a(href = "https://openweathermap.org/api","OpenWeatherMap")),
+              h4("for their generous free-tier weather API"),
+              h2(tags$a(href = "https://simplemaps.com", "SimpleMaps")),
+              h4("for kindly licensing their handy list of city names with coordinates under CC 4.0")
+              
+      )
+    )
+  )
+)
+
