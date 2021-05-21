@@ -27,12 +27,18 @@ ui <- dashboardPage(
   
   dashboardBody(
     
+    # css to scale current weather image
+    tags$head(tags$style(
+      type="text/css",
+      "#curr_image img {max-width: 100%; width: 100%; height: 100%}"
+    )),
+    
     tabItems(
       tabItem(tabName = 'today',
               
               fluidRow(
                 
-                
+                # KPI-style info boxes of current temperature, temp feeling, description condition
                 infoBoxOutput('curr_temp'),
                 infoBoxOutput('curr_feel'),
                 infoBoxOutput('curr_condition')
@@ -43,13 +49,15 @@ ui <- dashboardPage(
               
               fluidRow(
                 
-                box(width = 6,    
+                box(width = 6,   
+                    
                     # select city from dropdown 
                     selectInput("curr_city", label = h3("Select city"), 
                                 choices = list("Albuquerque" = "Albuquerque,US", "Baltimore" = "Baltimore,US", "Budapest" = "Budapest,HU", "Los Angeles" = "Los Angeles,US"), 
                                 selected = "Budapest,HU")),
                 
                 box(width = 6,
+                    
                     # select measurement system from radio buttons
                     radioButtons("curr_measurement", label = h3("Measurement system"),
                                  choices = list("imperial" = "imperial", "metric" = "metric"), 
@@ -59,7 +67,7 @@ ui <- dashboardPage(
               
               fluidRow(
                 
-                box(width = 10,
+                box(width = 12,
                     
                     # show image based on current condition
                     imageOutput("curr_image")
@@ -85,10 +93,14 @@ ui <- dashboardPage(
               ),
               
               box(width = 6,
+                  
+                  # plot of weather for coming week
                   girafeOutput('plot_forecast')
               ),
               
               box(width = 6,
+                  
+                  # table of weather details for dorks
                   DT::dataTableOutput('forecast_table'))
               
       ),

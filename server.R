@@ -24,8 +24,8 @@ server <- function(input, output, session) {
     list(
       src = paste0("www/",get_current_weather(location = input$curr_city)$general_description,".jpg"),
       contentType = "image/jpg",
-      height = 400, # session$clientData$output_myImage_height, #might work with tweaks
-      width =  1000, # session$clientData$output_myImage_width, # might work with tweaks
+      height = 800, # session$clientData$output_myImage_height, #might work with tweaks
+      width =  2000, # session$clientData$output_myImage_width, # might work with tweaks
       alt = "scientific_photo_of_weather")
     
     
