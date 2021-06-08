@@ -50,11 +50,12 @@ ui <- dashboardPage(
               fluidRow(
                 
                 box(width = 6,   
-                    
-                    # select city from dropdown 
-                    selectInput("curr_city", label = h3("Select city"), 
-                                choices = list("Albuquerque" = "Albuquerque,US", "Baltimore" = "Baltimore,US", "Budapest" = "Budapest,HU", "Los Angeles" = "Los Angeles,US"), 
-                                selected = "Budapest,HU")),
+                
+                # select city from list
+                selectizeInput(
+                  'curr_city', label = h3("Select city"),
+                  choices = NULL
+                )),
                 
                 box(width = 6,
                     
@@ -80,12 +81,17 @@ ui <- dashboardPage(
               fluidRow(
                 
                 box(width = 6,    
-                    # select city from dropdown 
-                    selectInput("forecast_city", label = h3("Select city"), 
-                                choices = list("Albuquerque" = "Albuquerque,US", "Baltimore" = "Baltimore,US", "Budapest" = "Budapest,HU", "Los Angeles" = "Los Angeles,US"), 
-                                selected = "Budapest,HU")),
+
+                    # select city from list
+                    selectizeInput(
+                      'forecast_city', label = h3("Select city"),
+                      choices = NULL
+                    )
+                    
+                    ),
                 
                 box(width = 6,
+                    
                     # select measurement system from radio buttons
                     radioButtons("forecast_measurement", label = h3("Measurement system"),
                                  choices = list("imperial" = "imperial", "metric" = "metric"), 
@@ -102,6 +108,7 @@ ui <- dashboardPage(
                   
                   # table of weather details for dorks
                   DT::dataTableOutput('forecast_table'))
+              
               
       ),
       

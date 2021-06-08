@@ -8,6 +8,8 @@ library(ggplot2)
 library(ggiraph)
 library(DT)
 
+# enable state bookmarking via parameters in URL
+enableBookmarking(store = "url")
 
 ################################################################################
 
@@ -20,7 +22,7 @@ API_KEY <- readLines('data/api_key.txt')
 
 # load city names and coordinates, generate new column "city,countrycode"
 cities <- fread("data/worldcities.csv")
-cities[, unique_code := paste0(city_ascii,",",iso2)]
+cities[, unique_code := paste0(city_ascii,", ",iso2)]
 
 
 ################################################################################
@@ -32,7 +34,7 @@ cities[, unique_code := paste0(city_ascii,",",iso2)]
 # function to get current weather
 # takes city name as input
 # defaults to Budapest
-get_current_weather <- function(location = "Budapest", unit_type = "metric"){
+get_current_weather <- function(location = "Budapest, HU", unit_type = "metric"){
 
   response <- GET(
     url = "http://api.openweathermap.org/data/2.5/weather",
@@ -201,19 +203,12 @@ condition_colors <- c("precipitation" = "dodgerblue3",
 # -----> generating the weekly forecast plot
 
 
-# make the forecast plot as an interactive ggiraph object
-make_weekly_forecast_plot <- function(input_forecast_city = "Budapest,HU", input_forecast_measurement = "metric"){
-  
-  # take input city and get longitude and latitude coordinates required for API call (yeah... free tier doesn't support city names for forecast)
-  input_longitude <- cities$lng[cities$unique_code == input_forecast_city]
-  input_latitude <- cities$lat[cities$unique_code == input_forecast_city]
+# make the forecast plot from a dataframe returned by the get_forecast() function
+make_weekly_forecast_plot <- function(forecast_weather){
   
   # create plot
   weekly_forecast_plot <-
-  ggplot(data = get_forecast(longitude = input_longitude,
-                             latitude = input_latitude,
-                             unit_type = input_forecast_measurement), 
-         aes(x = as.Date(date))) +
+  ggplot(data = forecast_weather, aes(x = as.Date(date))) +
     geom_line_interactive(aes(y = temp_daytime), size = 1.25) +
     geom_point_interactive(aes(y = temp_daytime,
                                color = color_code,
