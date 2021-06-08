@@ -9,6 +9,8 @@ source("helper/global.R")
 # server functions make some API calls, rely heavily on helpers from global.R
 server <- function(input, output, session) {
   
+  
+  
   ### -----> STORE INPUT PARAMETERS IN URL <----- ###
   
   observe({
@@ -21,8 +23,9 @@ server <- function(input, output, session) {
     updateQueryString(url)
   })
   
-  ### -----> TODAY'S WEATHER OUTPUT <----- ###
+
   
+  ### -----> TODAY'S WEATHER OUTPUT <----- ###
   
   updateSelectizeInput(session, 'curr_city', choices = cities$unique_code, selected = "Budapest, HU", server = TRUE)
   
