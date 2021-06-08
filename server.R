@@ -9,6 +9,18 @@ source("helper/global.R")
 # server functions make some API calls, rely heavily on helpers from global.R
 server <- function(input, output, session) {
   
+  ### -----> STORE INPUT PARAMETERS IN URL <----- ###
+  
+  observe({
+    # Trigger this observer every time an input changes
+    reactiveValuesToList(input)
+    session$doBookmark()
+  })
+  
+  onBookmarked(function(url) {
+    updateQueryString(url)
+  })
+  
   ### -----> TODAY'S WEATHER OUTPUT <----- ###
   
   

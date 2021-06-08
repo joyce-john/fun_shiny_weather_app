@@ -8,6 +8,8 @@ library(ggplot2)
 library(ggiraph)
 library(DT)
 
+# enable state bookmarking via parameters in URL
+enableBookmarking(store = "url")
 
 ################################################################################
 

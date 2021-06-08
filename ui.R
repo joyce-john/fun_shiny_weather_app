@@ -109,6 +109,7 @@ ui <- dashboardPage(
                   # table of weather details for dorks
                   DT::dataTableOutput('forecast_table'))
               
+              
       ),
       
       tabItem(tabName = 'survey',
