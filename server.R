@@ -73,7 +73,7 @@ server <- function(input, output, session) {
     })
     
     # do some data.table column name manipulations for a nicer table
-    output$forecast_table <- renderDataTable({
+    output$forecast_table <- DT::renderDataTable({
       
       forecast_weather[,  .(Date = date, 
                             Day = day_of_week, 
