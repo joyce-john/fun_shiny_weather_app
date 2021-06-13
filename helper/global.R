@@ -21,7 +21,7 @@ enableBookmarking(store = "url")
 API_KEY <- readLines('data/api_key.txt')
 
 # load city names and coordinates, generate new column "city,countrycode"
-cities <- fread("data/worldcities.csv")
+cities <- fread("data/worldcities.csv", encoding = "UTF-8")
 cities[, unique_code := paste0(city_ascii,", ",iso2)]
 
 
