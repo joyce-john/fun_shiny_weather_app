@@ -22,7 +22,8 @@ API_KEY <- readLines('data/api_key.txt')
 
 # load city names and coordinates, generate new column "city,countrycode"
 cities <- fread("data/worldcities.csv", encoding = "UTF-8")
-cities[, unique_code := paste0(city_ascii,", ",iso2)]
+cities[, unique_code := paste0(city,", ",iso2)]
+# cities[, unique_code := paste0(city,", ",iso3)] #iso3 codes can work, but default page load is broken
 
 
 ################################################################################
