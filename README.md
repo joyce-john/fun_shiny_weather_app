@@ -16,4 +16,3 @@ https://joyce-john.shinyapps.io/Weather_App/
 Thanks to these two organizations:  
 * [OpenWeatherMaps](https://openweathermap.org), for their generous free-tier API  
 * [SimpleMaps](https://simplemaps.com), for their generously licensed (CC 4.0) list of city names and coordinates  
-* 
